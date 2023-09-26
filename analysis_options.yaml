@@ -6,3 +6,4 @@ linter:
     prefer_is_not_empty: true
     prefer_is_not_operator: true
     sort_child_properties_last: true
+    lines_longer_than_80_chars: false
