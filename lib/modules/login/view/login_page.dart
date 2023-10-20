@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
         body: LoginView(),
       ),
     );
-  }    
+  }
 }
 
 /// {@template login_view}

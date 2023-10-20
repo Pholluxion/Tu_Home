@@ -22,7 +22,7 @@ class SignupPage extends StatelessWidget {
         body: SignupView(),
       ),
     );
-  }    
+  }
 }
 
 /// {@template signup_view}

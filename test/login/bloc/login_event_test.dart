@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tu_home/modules/login/bloc/bloc.dart';
 
 void main() {
-  group('LoginEvent', () {  
+  group('LoginEvent', () {
     group('CustomLoginEvent', () {
       test('supports value equality', () {
         expect(
@@ -15,10 +15,7 @@ void main() {
     });
     group('constructor', () {
       test('can be instantiated', () {
-        expect(
-          const CustomLoginEvent(),
-          isNotNull
-        );
+        expect(const CustomLoginEvent(), isNotNull);
       });
     });
   });
