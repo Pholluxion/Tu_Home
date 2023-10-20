@@ -24,7 +24,7 @@ class App extends StatelessWidget {
       ],
       supportedLocales: const [Locale('es')],
       onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context).counterAppBarTitle,
+          context.l10n.counterAppBarTitle,
       theme: FlexThemeData.light(
         scheme: FlexScheme.brandBlue,
         useMaterial3: true,

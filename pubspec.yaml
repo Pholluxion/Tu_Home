@@ -22,6 +22,11 @@ dependencies:
   intl: ^0.18.0
   json_annotation: ^4.8.1
   logger: ^2.0.2+1
+  ui:
+    path: packages/ui
+  services:
+    path: packages/services
+
 
 dev_dependencies:
   bloc_test: ^9.1.4
