@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tu_home/modules/signup/bloc/bloc.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:tu_home/modules/signup/widgets/signup_body.dart';
 
-/// {@template signup_page}
-/// A description for SignupPage
-/// {@endtemplate}
+import '../bloc/signup_bloc.dart';
+
 class SignupPage extends StatelessWidget {
-  /// {@macro signup_page}
   const SignupPage({super.key});
 
-  /// The static route for SignupPage
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(builder: (_) => const SignupPage());
   }
@@ -25,11 +24,7 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-/// {@template signup_view}
-/// Displays the Body of SignupView
-/// {@endtemplate}
 class SignupView extends StatelessWidget {
-  /// {@macro signup_view}
   const SignupView({super.key});
 
   @override

@@ -13,7 +13,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Tu Home',
-      routerConfig: goRouter,
+      routerConfig: router,
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
@@ -23,15 +23,16 @@ class App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('es')],
-      onGenerateTitle: (BuildContext context) =>
-          context.l10n.counterAppBarTitle,
+      onGenerateTitle: (_) => context.l10n.appBarTitle,
       theme: FlexThemeData.light(
+        fontFamily: 'Catamaran',
         scheme: FlexScheme.brandBlue,
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       darkTheme: FlexThemeData.dark(
+        fontFamily: 'Catamaran',
         scheme: FlexScheme.brandBlue,
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       themeMode: ThemeMode.system,
     );

@@ -7,10 +7,6 @@ abstract class SignupEvent extends Equatable {
   List<Object> get props => [];
 }
 
-/// {@template custom_signup_event}
-/// Event added when some custom logic happens
-/// {@endtemplate}
 class CustomSignupEvent extends SignupEvent {
-  /// {@macro custom_signup_event}
   const CustomSignupEvent();
 }

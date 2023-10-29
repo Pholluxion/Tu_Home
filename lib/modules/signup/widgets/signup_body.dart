@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tu_home/modules/signup/bloc/bloc.dart';
 
-/// {@template signup_body}
-/// Body of the SignupPage.
-///
-/// Add what it does
-/// {@endtemplate}
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/signup_bloc.dart';
+
 class SignupBody extends StatelessWidget {
-  /// {@macro signup_body}
   const SignupBody({super.key});
 
   @override

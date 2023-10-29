@@ -1,7 +1,7 @@
-part of 'signup_bloc.dart';
+part of 'home_cubit.dart';
 
-class SignupState extends Equatable {
-  const SignupState({
+class HomeState extends Equatable {
+  const HomeState({
     this.customProperty = 'Default Value',
   });
 
@@ -10,15 +10,15 @@ class SignupState extends Equatable {
   @override
   List<Object> get props => [customProperty];
 
-  SignupState copyWith({
+  HomeState copyWith({
     String? customProperty,
   }) {
-    return SignupState(
+    return HomeState(
       customProperty: customProperty ?? this.customProperty,
     );
   }
 }
 
-class SignupInitial extends SignupState {
-  const SignupInitial() : super();
+class HomeInitial extends HomeState {
+  const HomeInitial() : super();
 }
