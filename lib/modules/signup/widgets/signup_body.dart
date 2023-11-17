@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:tu_home/gen/assets.gen.dart';
 import 'package:tu_home/ui/ui.dart';
 
 class SignupBody extends StatelessWidget {
