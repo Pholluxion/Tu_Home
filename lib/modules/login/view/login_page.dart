@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tu_home/modules/login/widgets/login_body.dart';
+import 'package:tu_home/ui/colors/colors.dart';
 
 import '../bloc/login_bloc.dart';
 
@@ -26,7 +27,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color.fromARGB(255, 231, 237, 245),
+      backgroundColor: AppColors.backgroundColor,
       body: LoginBody(),
     );
   }

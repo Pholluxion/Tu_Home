@@ -26,6 +26,7 @@ dependencies:
   shared_preferences: ^2.2.2
   injectable: ^2.3.2
   injectable_generator: ^2.4.1
+  flutter_animate: ^4.2.0+1
 
 
 dev_dependencies:

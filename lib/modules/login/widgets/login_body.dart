@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:tu_home/app/app.dart';
 
 import 'package:tu_home/ui/ui.dart';
@@ -20,7 +21,11 @@ class LoginBody extends StatelessWidget {
                 child: Image.asset(
                   Assets.images.tuHomeLogo.path,
                 ),
-              ),
+              ).animate().slide(
+                    begin: const Offset(0, -1),
+                    end: Offset.zero,
+                    duration: const Duration(milliseconds: 500),
+                  ),
             ),
           ),
           Align(
@@ -43,6 +48,7 @@ class LoginBody extends StatelessWidget {
                 ],
               ),
               child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.all(context.xl),
                   child: Column(
@@ -76,6 +82,7 @@ class LoginBody extends StatelessWidget {
                       SizedBox(height: context.m),
                       TextField(
                         decoration: InputDecoration(
+                          fillColor: AppColors.white,
                           hintText: 'Correo Electrónico',
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: AppColors.grey),
@@ -97,10 +104,13 @@ class LoginBody extends StatelessWidget {
                             ),
                           ),
                         ),
+                        onTapOutside: (event) =>
+                            FocusScope.of(context).requestFocus(FocusNode()),
                       ),
                       SizedBox(height: context.m),
                       TextField(
                         decoration: InputDecoration(
+                          fillColor: AppColors.white,
                           hintText: 'Contraseña',
                           suffixIcon: Padding(
                             padding: EdgeInsets.symmetric(
@@ -134,6 +144,8 @@ class LoginBody extends StatelessWidget {
                             ),
                           ),
                         ),
+                        onTapOutside: (event) =>
+                            FocusScope.of(context).requestFocus(FocusNode()),
                       ),
                       SizedBox(height: context.m),
                       ElevatedButton(
@@ -188,7 +200,11 @@ class LoginBody extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ).animate().slide(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                  duration: const Duration(milliseconds: 500),
+                ),
           ),
         ],
       ),
