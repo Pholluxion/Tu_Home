@@ -54,20 +54,21 @@ class LoginBody extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: context.m),
-                      const Text(
+                      Text(
                         'Inicio de Sesión',
                         style: TextStyle(
                           fontSize: 28,
+                          color: context.secondaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(height: context.m),
-                      const Text(
+                      Text(
                         '¡Bienvenido a Tu Home!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
-                          color: AppColors.primary,
+                          color: context.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -81,28 +82,8 @@ class LoginBody extends StatelessWidget {
                       ),
                       SizedBox(height: context.m),
                       TextField(
-                        decoration: InputDecoration(
-                          fillColor: AppColors.white,
+                        decoration: const InputDecoration(
                           hintText: 'Correo Electrónico',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: AppColors.grey),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.m),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: AppColors.primary),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.m),
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: AppColors.grey),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.m),
-                            ),
-                          ),
                         ),
                         onTapOutside: (event) =>
                             FocusScope.of(context).requestFocus(FocusNode()),
@@ -110,7 +91,6 @@ class LoginBody extends StatelessWidget {
                       SizedBox(height: context.m),
                       TextField(
                         decoration: InputDecoration(
-                          fillColor: AppColors.white,
                           hintText: 'Contraseña',
                           suffixIcon: Padding(
                             padding: EdgeInsets.symmetric(
@@ -124,25 +104,6 @@ class LoginBody extends StatelessWidget {
                               ),
                             ),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: AppColors.grey),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.m),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: AppColors.primary),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.m),
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: AppColors.grey),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(context.m),
-                            ),
-                          ),
                         ),
                         onTapOutside: (event) =>
                             FocusScope.of(context).requestFocus(FocusNode()),
@@ -150,12 +111,6 @@ class LoginBody extends StatelessWidget {
                       SizedBox(height: context.m),
                       ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(context.m),
-                          ),
-                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -186,10 +141,10 @@ class LoginBody extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () => const SignUpRoute().push(context),
-                            child: const Text(
+                            child: Text(
                               'Registrate',
                               style: TextStyle(
-                                color: AppColors.primary,
+                                color: context.primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

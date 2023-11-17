@@ -14,12 +14,12 @@ class SignupBody extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            backgroundColor: AppColors.backgroundColor,
+            backgroundColor: context.scaffoldBackgroundColor,
             leading: IconButton(
               onPressed: () => context.pop(),
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back,
-                color: AppColors.primary,
+                color: context.primaryColor,
               ),
             ),
             pinned: true,
@@ -57,20 +57,21 @@ class _SignupBody extends StatelessWidget {
         padding: EdgeInsets.all(context.xl),
         child: Column(
           children: [
-            const Text(
+            Text(
               'Registro',
               style: TextStyle(
                 fontSize: 28,
+                color: context.secondaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: context.m),
-            const Text(
+            Text(
               'Unete a Tu Home',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
-                color: AppColors.primary,
+                color: context.primaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -84,81 +85,24 @@ class _SignupBody extends StatelessWidget {
             ),
             SizedBox(height: context.m),
             TextField(
-              decoration: InputDecoration(
-                fillColor: AppColors.white,
+              decoration: const InputDecoration(
                 hintText: 'Nombre',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
               ),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
             ),
             SizedBox(height: context.m),
             TextField(
-              decoration: InputDecoration(
-                fillColor: AppColors.white,
+              decoration: const InputDecoration(
                 hintText: 'Apellido',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
               ),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
             ),
             SizedBox(height: context.m),
             TextField(
-              decoration: InputDecoration(
-                fillColor: AppColors.white,
+              decoration: const InputDecoration(
                 hintText: 'Correo electrónico',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
               ),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
@@ -166,7 +110,6 @@ class _SignupBody extends StatelessWidget {
             SizedBox(height: context.m),
             TextField(
               decoration: InputDecoration(
-                fillColor: AppColors.white,
                 hintText: 'Contraseña',
                 suffixIcon: Padding(
                   padding: EdgeInsets.symmetric(
@@ -180,24 +123,6 @@ class _SignupBody extends StatelessWidget {
                     ),
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
               ),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
@@ -205,7 +130,6 @@ class _SignupBody extends StatelessWidget {
             SizedBox(height: context.m),
             TextField(
               decoration: InputDecoration(
-                fillColor: AppColors.white,
                 hintText: 'Confirmar contraseña',
                 suffixIcon: Padding(
                   padding: EdgeInsets.symmetric(
@@ -217,24 +141,6 @@ class _SignupBody extends StatelessWidget {
                       Icons.remove_red_eye,
                       color: Colors.grey,
                     ),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
                   ),
                 ),
               ),
@@ -255,9 +161,15 @@ class _SignupBody extends StatelessWidget {
               ),
               child: DropdownButton(
                 autofocus: false,
+                elevation: 24,
                 icon: const Icon(Icons.keyboard_arrow_down_rounded),
                 underline: const SizedBox(),
-                hint: const Text('Tipo de documento'),
+                hint: Text(
+                  'Tipo de documento',
+                  style: AppStyles.labelMedium.copyWith(
+                    color: context.tertiaryColor,
+                  ),
+                ),
                 isExpanded: true,
                 borderRadius: BorderRadius.circular(context.m),
                 items: const [
@@ -279,27 +191,8 @@ class _SignupBody extends StatelessWidget {
             ),
             SizedBox(height: context.m),
             TextField(
-              decoration: InputDecoration(
-                fillColor: AppColors.white,
+              decoration: const InputDecoration(
                 hintText: 'Numero de documento',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.grey),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(context.m),
-                  ),
-                ),
               ),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
@@ -307,19 +200,11 @@ class _SignupBody extends StatelessWidget {
             SizedBox(height: context.m),
             ElevatedButton(
               onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(context.m),
-                ),
-              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: context.m,
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: context.m),
                     child: const Text('Registrarse'),
                   ),
                 ],
@@ -343,10 +228,10 @@ class _SignupBody extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () => context.pop(),
-                  child: const Text(
+                  child: Text(
                     'Inicia sesión',
                     style: TextStyle(
-                      color: AppColors.primary,
+                      color: context.primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

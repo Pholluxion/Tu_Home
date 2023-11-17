@@ -13,4 +13,10 @@ extension FromContext on BuildContext {
   double get xl => AppSpacing.xl;
   double get xxl => AppSpacing.xxl;
   double get xxxl => AppSpacing.xxxl;
+
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
+  Color get primaryColor => Theme.of(this).colorScheme.primary;
+  Color get secondaryColor => Theme.of(this).colorScheme.secondary;
+  Color get tertiaryColor => Theme.of(this).colorScheme.tertiary;
+  Color get scaffoldBackgroundColor => Theme.of(this).colorScheme.background;
 }
