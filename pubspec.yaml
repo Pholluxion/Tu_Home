@@ -23,7 +23,6 @@ dependencies:
   json_annotation: ^4.8.1
   logger: ^2.0.2+1
   lottie: ^2.7.0
-  flutter_adaptive_scaffold: ^0.1.7+1
   shared_preferences: ^2.2.2
   injectable: ^2.3.2
   injectable_generator: ^2.4.1
@@ -61,7 +60,7 @@ flutter:
         - asset: assets/fonts/Catamaran-Thin.ttf
 
 flutter_gen:
-  output: lib/gen/
+  output: lib/ui/gen/
   line_length: 80
 
   integrations:

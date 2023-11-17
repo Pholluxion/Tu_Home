@@ -13,7 +13,5 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   FutureOr<void> _onCustomSignupEvent(
     CustomSignupEvent event,
     Emitter<SignupState> emit,
-  ) {
-    // TODO: Add Logic
-  }
+  ) {}
 }

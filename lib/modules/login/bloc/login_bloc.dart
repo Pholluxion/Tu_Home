@@ -13,7 +13,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> _onCustomLoginEvent(
     CustomLoginEvent event,
     Emitter<LoginState> emit,
-  ) {
-    // TODO: Add Logic
-  }
+  ) {}
 }

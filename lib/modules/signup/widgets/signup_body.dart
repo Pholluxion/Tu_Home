@@ -284,7 +284,7 @@ class SignupBody extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                 vertical: context.m,
                               ),
-                              child: const Text('Inicio de Sesión'),
+                              child: const Text('Registrarse'),
                             ),
                           ],
                         ),
