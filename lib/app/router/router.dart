@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tu_home/modules/home/home.dart';
 import 'package:tu_home/modules/login/login.dart';
 import 'package:tu_home/modules/signup/signup.dart';
+import 'package:tu_home/modules/splash/splash.dart';
 
 part 'router.g.dart';
 
@@ -41,5 +42,15 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const HomePage();
+  }
+}
+
+@TypedGoRoute<SplashRoute>(path: SplashPage.route)
+class SplashRoute extends GoRouteData {
+  const SplashRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SplashPage();
   }
 }

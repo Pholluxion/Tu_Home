@@ -178,6 +178,10 @@ class _SignupBody extends StatelessWidget {
                     child: Text('Cédula de ciudadanía'),
                   ),
                   DropdownMenuItem(
+                    value: 'Cédula de ciudadanía',
+                    child: Text('Cédula Electrónica'),
+                  ),
+                  DropdownMenuItem(
                     value: 'Cédula de extranjería',
                     child: Text('Cédula de extranjería'),
                   ),
