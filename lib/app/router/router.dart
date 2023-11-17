@@ -1,13 +1,45 @@
+import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
 
-import 'package:tu_home/counter/counter.dart';
+import 'package:tu_home/modules/home/home.dart';
+import 'package:tu_home/modules/login/login.dart';
+import 'package:tu_home/modules/signup/signup.dart';
 
-GoRouter goRouter = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const CounterPage(),
-    )
-  ],
+part 'router.g.dart';
+
+GoRouter router = GoRouter(
+  initialLocation: '/login',
+  debugLogDiagnostics: true,
+  routes: $appRoutes,
 );
+
+@TypedGoRoute<LoginRoute>(path: LoginPage.route)
+class LoginRoute extends GoRouteData {
+  const LoginRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const LoginPage();
+  }
+}
+
+@TypedGoRoute<SignUpRoute>(path: SignupPage.route)
+class SignUpRoute extends GoRouteData {
+  const SignUpRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SignupPage();
+  }
+}
+
+@TypedGoRoute<HomeRoute>(path: HomePage.route)
+class HomeRoute extends GoRouteData {
+  const HomeRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const HomePage();
+  }
+}
