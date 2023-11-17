@@ -11,7 +11,24 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return Center(child: Text(state.customProperty));
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return Text(state.customProperty);
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<HomeCubit>().yourCustomFunction();
+                },
+                child: const Text('Button'),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

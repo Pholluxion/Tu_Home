@@ -9,9 +9,7 @@ import '../bloc/signup_bloc.dart';
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
 
-  static Route<dynamic> route() {
-    return MaterialPageRoute<dynamic>(builder: (_) => const SignupPage());
-  }
+  static const route = '/signup';
 
   @override
   Widget build(BuildContext context) {

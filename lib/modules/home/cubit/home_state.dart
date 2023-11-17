@@ -18,7 +18,3 @@ class HomeState extends Equatable {
     );
   }
 }
-
-class HomeInitial extends HomeState {
-  const HomeInitial() : super();
-}

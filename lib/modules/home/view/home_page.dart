@@ -9,9 +9,7 @@ import '../cubit/home_cubit.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  static Route<dynamic> route() {
-    return MaterialPageRoute<dynamic>(builder: (_) => const HomePage());
-  }
+  static const route = '/home';
 
   @override
   Widget build(BuildContext context) {

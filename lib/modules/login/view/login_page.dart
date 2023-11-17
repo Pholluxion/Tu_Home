@@ -9,13 +9,13 @@ import '../bloc/login_bloc.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
+  static const route = '/login';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoginBloc(),
-      child: const Scaffold(
-        body: LoginView(),
-      ),
+      child: const LoginView(),
     );
   }
 }
@@ -26,6 +26,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Color.fromARGB(255, 231, 237, 245),
       body: LoginBody(),
     );
   }
