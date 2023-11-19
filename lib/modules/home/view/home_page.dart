@@ -25,6 +25,28 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: HomeBody());
+    return WillPopScope(
+      child: const Scaffold(body: HomeBody()),
+      onWillPop: () => _onWillPop(context),
+    );
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('¿Desea cerrar sesión?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Si'),
+          ),
+        ],
+      ),
+    );
   }
 }

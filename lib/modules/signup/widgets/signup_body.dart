@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tu_home/modules/signup/data/data.dart';
+import 'package:flutter/services.dart';
 
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:tu_home/modules/signup/cubit/signup_cubit.dart';
+import 'package:tu_home/modules/signup/data/data.dart';
 import 'package:tu_home/ui/ui.dart';
 
 class SignupBody extends StatelessWidget {
@@ -10,16 +14,73 @@ class SignupBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          _SliverAppBar(),
-          SliverToBoxAdapter(child: _SignupHeader()),
-          SliverToBoxAdapter(child: _SignupBody()),
-        ],
+    return SafeArea(
+      child: BlocConsumer<SignupCubit, SignupState>(
+        listener: (context, state) {
+          if (state is SignupSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Registro exitoso'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            context.go('/login');
+          }
+
+          if (state is SignupFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  if (state is! SignupLoading) ...[
+                    const _SliverAppBar(),
+                    const SliverToBoxAdapter(child: _SignupHeader()),
+                    const SliverToBoxAdapter(child: _SignupBody()),
+                  ],
+                  if (state is SignupLoading)
+                    const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: _SignUpLoading(),
+                    ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
+  }
+}
+
+class _SignUpLoading extends StatelessWidget {
+  const _SignUpLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.black.withOpacity(0.5),
+      child: Center(
+        child: CircularProgressIndicator(
+          color: context.primaryColor,
+        ),
+      ),
+    ).animate().fade(
+          begin: 0,
+          end: 1,
+          duration: const Duration(milliseconds: 500),
+        );
   }
 }
 
@@ -60,8 +121,80 @@ class _SignupHeader extends StatelessWidget {
   }
 }
 
-class _SignupBody extends StatelessWidget {
+class _SignupBody extends StatefulWidget {
   const _SignupBody();
+
+  @override
+  State<_SignupBody> createState() => _SignupBodyState();
+}
+
+class _SignupBodyState extends State<_SignupBody> {
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _lastNameController;
+  late final TextEditingController _documentController;
+  late final TextEditingController _confirmPasswordController;
+
+  late final ValueNotifier<bool> _isPasswordVisible;
+  late final ValueNotifier<bool> _isConfirmPasswordVisible;
+  late final ValueNotifier<bool> _validEmailNotifier;
+  late final ValueNotifier<bool> _isNotEmptyNotifier;
+  late final ValueNotifier<DocType> _docType;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _nameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _documentController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    _isPasswordVisible = ValueNotifier(false);
+    _isConfirmPasswordVisible = ValueNotifier(false);
+    _docType = ValueNotifier(DocType.cC);
+    _validEmailNotifier = ValueNotifier(true);
+    _isNotEmptyNotifier = ValueNotifier(false);
+  }
+
+  @override
+  dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _lastNameController.dispose();
+    _documentController.dispose();
+    _confirmPasswordController.dispose();
+    _isConfirmPasswordVisible.dispose();
+    _isNotEmptyNotifier.dispose();
+    _validEmailNotifier.dispose();
+    _isPasswordVisible.dispose();
+    _docType.dispose();
+    super.dispose();
+  }
+
+  void validEmail(String email) {
+    final RegExp emailRegex = RegExp(
+      r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$',
+    );
+
+    if (email.isEmpty) {
+      _validEmailNotifier.value = true;
+      return;
+    }
+
+    _validEmailNotifier.value = emailRegex.hasMatch(email);
+  }
+
+  void validIsNotEmpty() {
+    _isNotEmptyNotifier.value = _emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _nameController.text.isNotEmpty &&
+        _lastNameController.text.isNotEmpty &&
+        _documentController.text.isNotEmpty &&
+        _confirmPasswordController.text.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,67 +246,109 @@ class _SignupBody extends StatelessWidget {
             ),
             SizedBox(height: context.m),
             TextField(
+              controller: _nameController,
+              keyboardType: TextInputType.name,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+              ],
               decoration: const InputDecoration(
                 hintText: 'Nombre',
               ),
+              onChanged: (value) => validIsNotEmpty(),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
             ),
             SizedBox(height: context.m),
             TextField(
+              controller: _lastNameController,
+              keyboardType: TextInputType.name,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+              ],
               decoration: const InputDecoration(
                 hintText: 'Apellido',
               ),
+              onChanged: (value) => validIsNotEmpty(),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
             ),
             SizedBox(height: context.m),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: 'Correo electrónico',
+            ValueListenableBuilder(
+              valueListenable: _validEmailNotifier,
+              builder: (context, value, child) => TextField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                ],
+                decoration: InputDecoration(
+                  hintText: 'Correo Electrónico',
+                  errorText: value ? null : 'Correo electrónico inválido',
+                ),
+                onChanged: (_) {
+                  validEmail(_emailController.text);
+                  validIsNotEmpty();
+                },
+                onTapOutside: (event) =>
+                    FocusScope.of(context).requestFocus(FocusNode()),
               ),
-              onTapOutside: (event) =>
-                  FocusScope.of(context).requestFocus(FocusNode()),
             ),
             SizedBox(height: context.m),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Contraseña',
-                suffixIcon: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.xs,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
+            ValueListenableBuilder(
+              valueListenable: _isPasswordVisible,
+              builder: (context, value, child) {
+                return TextField(
+                  controller: _passwordController,
+                  obscureText: !value,
+                  decoration: InputDecoration(
+                    hintText: 'Contraseña',
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.xs,
+                      ),
+                      child: IconButton(
+                        onPressed: () => _isPasswordVisible.value = !value,
+                        icon: Icon(
+                          value ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              onTapOutside: (event) =>
-                  FocusScope.of(context).requestFocus(FocusNode()),
+                  onChanged: (value) => validIsNotEmpty(),
+                  onTapOutside: (event) =>
+                      FocusScope.of(context).requestFocus(FocusNode()),
+                );
+              },
             ),
             SizedBox(height: context.m),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Confirmar contraseña',
-                suffixIcon: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.xs,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
+            ValueListenableBuilder(
+              valueListenable: _isConfirmPasswordVisible,
+              builder: (context, value, child) {
+                return TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: !value,
+                  decoration: InputDecoration(
+                    hintText: 'Confirmar contraseña',
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.xs,
+                      ),
+                      child: IconButton(
+                        onPressed: () =>
+                            _isConfirmPasswordVisible.value = !value,
+                        icon: Icon(
+                          value ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              onTapOutside: (event) =>
-                  FocusScope.of(context).requestFocus(FocusNode()),
+                  onChanged: (value) => validIsNotEmpty(),
+                  onTapOutside: (event) =>
+                      FocusScope.of(context).requestFocus(FocusNode()),
+                );
+              },
             ),
             SizedBox(height: context.m),
             Container(
@@ -187,47 +362,73 @@ class _SignupBody extends StatelessWidget {
                 border: Border.all(color: AppColors.grey),
                 borderRadius: BorderRadius.circular(context.m),
               ),
-              child: DropdownButton(
-                autofocus: false,
-                elevation: 24,
-                icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                underline: const SizedBox(),
-                hint: Text(
-                  'Tipo de documento',
-                  style: AppStyles.labelMedium.copyWith(
-                    color: context.tertiaryColor,
+              child: ValueListenableBuilder(
+                valueListenable: _docType,
+                builder: (context, value, child) => DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    autofocus: false,
+                    elevation: 24,
+                    icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    hint: Text(
+                      'Tipo de documento',
+                      style: AppStyles.labelMedium.copyWith(
+                        color: context.tertiaryColor,
+                      ),
+                    ),
+                    isExpanded: true,
+                    borderRadius: BorderRadius.circular(context.m),
+                    value: _docType.value,
+                    items: DocType.values
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e.value),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      _docType.value = value as DocType;
+                      validIsNotEmpty();
+                    },
                   ),
                 ),
-                isExpanded: true,
-                borderRadius: BorderRadius.circular(context.m),
-                items: DocType.values
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.value),
-                        ))
-                    .toList(),
-                onChanged: (value) {},
               ),
             ),
             SizedBox(height: context.m),
             TextField(
+              controller: _documentController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+              ],
               decoration: const InputDecoration(
                 hintText: 'Numero de documento',
               ),
+              onChanged: (value) => validIsNotEmpty(),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
             ),
             SizedBox(height: context.m),
-            ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.m),
-                    child: const Text('Registrarse'),
-                  ),
-                ],
+            ValueListenableBuilder(
+              valueListenable: _isNotEmptyNotifier,
+              builder: (context, value, child) => ElevatedButton(
+                onPressed: value
+                    ? () => context.read<SignupCubit>().signup(
+                          email: _emailController.text,
+                          name: _nameController.text,
+                          surname: _lastNameController.text,
+                          docType: _docType.value,
+                          password: _passwordController.text,
+                          documentNumber: _documentController.text,
+                        )
+                    : null,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: context.m),
+                      child: const Text('Registrarse'),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: context.m),

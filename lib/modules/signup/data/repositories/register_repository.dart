@@ -1,4 +1,6 @@
-import 'package:tu_home/modules/signup/data/services/register_service.dart';
+import 'dart:developer';
+
+import 'package:tu_home/modules/signup/data/data.dart';
 
 class RegisterRepository {
   final RegisterService _registerService;
@@ -11,7 +13,7 @@ class RegisterRepository {
     String email,
     String password,
     String documentNumber,
-    // DocType docType,
+    DocType docType,
   ) async {
     try {
       final response = await _registerService.register({
@@ -20,10 +22,11 @@ class RegisterRepository {
         'email': email,
         'password': password,
         'documentNumber': documentNumber,
-        // 'docType': docType,
+        'documentType': docType.id,
       });
       return response.isSuccessful;
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:tu_home/app/router/router.dart';
 import 'package:tu_home/modules/login/cubit/login_cubit.dart';
 import 'package:tu_home/ui/ui.dart';
 
@@ -24,21 +24,17 @@ class HomeBody extends StatelessWidget {
             ),
           );
 
-          const LoginRoute().replace(context);
+          context.pop();
         }
       },
       builder: (context, loginState) {
-        return Stack(
-          children: [
-            CustomScrollView(
-              slivers: [
-                if (loginState is! LoginLoading) ...[
-                  const _HomeAppBar(),
-                  const _HomeBody(),
-                ],
-                if (loginState is LoginLoading) const _LogOutLoading(),
-              ],
-            ),
+        return CustomScrollView(
+          slivers: [
+            if (loginState is! LoginLoading) ...[
+              const _HomeAppBar(),
+              const _HomeBody(),
+            ],
+            if (loginState is LoginLoading) const _LogOutLoading(),
           ],
         );
       },
@@ -66,20 +62,6 @@ class _HomeAppBar extends StatelessWidget {
       actions: [
         IconButton(
           icon: const Icon(
-            Icons.search,
-            color: Colors.grey,
-          ),
-          onPressed: () {},
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          child: VerticalDivider(
-            color: Colors.grey,
-            width: 4.0,
-          ),
-        ),
-        IconButton(
-          icon: const Icon(
             Icons.notifications_active_outlined,
             color: Colors.grey,
           ),
@@ -100,17 +82,21 @@ class _HomeAppBar extends StatelessWidget {
           onPressed: () => context.read<LoginCubit>().logout(),
         ),
       ],
-      title: const Column(
+      title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Bienvenido a Tu Home',
             style: TextStyle(color: Colors.grey),
           ),
-          Text(
-            'Nombre de usuario',
-            style: TextStyle(color: Colors.grey, fontSize: 12.0),
+          BlocBuilder<LoginCubit, LoginState>(
+            builder: (context, state) {
+              return Text(
+                state is LoginSuccess ? state.userResponse.name : 'Usuario',
+                style: const TextStyle(color: Colors.grey, fontSize: 12.0),
+              );
+            },
           ),
         ],
       ),
@@ -127,20 +113,21 @@ class _HomeBody extends StatelessWidget {
     return SliverToBoxAdapter(
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          return Center(
-            child: ListView(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                Assets.images.enpty.image(),
-                const SizedBox(height: 16.0),
-                Text(
-                  'Parece que no tienes inmuebles.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ],
-            ),
+          return ListView(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Assets.images.enpty.image(),
+              const SizedBox(height: 16.0),
+              Text(
+                'Parece que no tienes inmuebles.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+              ),
+            ],
           );
         },
       ),

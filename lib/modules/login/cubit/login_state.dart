@@ -15,8 +15,12 @@ class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final String token;
+  final UserResponse userResponse;
 
-  const LoginSuccess(this.token);
+  const LoginSuccess({
+    required this.token,
+    required this.userResponse,
+  });
 
   @override
   List<Object> get props => [token];

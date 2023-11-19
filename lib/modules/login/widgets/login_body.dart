@@ -24,7 +24,7 @@ class LoginBody extends StatelessWidget {
               ),
             );
 
-            const HomeRoute().replace(context);
+            const HomeRoute().push(context);
           }
 
           if (state is LoginFailure) {
@@ -185,6 +185,8 @@ class _EmailAndPasswordTextFieldState
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final ValueNotifier<bool> _obscureTextNotifier;
+  late final ValueNotifier<bool> _validEmailNotifier;
+  late final ValueNotifier<bool> _isNotEmptyNotifier;
 
   @override
   initState() {
@@ -192,6 +194,8 @@ class _EmailAndPasswordTextFieldState
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _obscureTextNotifier = ValueNotifier<bool>(true);
+    _validEmailNotifier = ValueNotifier<bool>(true);
+    _isNotEmptyNotifier = ValueNotifier<bool>(false);
   }
 
   @override
@@ -199,24 +203,52 @@ class _EmailAndPasswordTextFieldState
     _emailController.dispose();
     _passwordController.dispose();
     _obscureTextNotifier.dispose();
+    _validEmailNotifier.dispose();
+    _isNotEmptyNotifier.dispose();
     super.dispose();
+  }
+
+  void validEmail(String email) {
+    final RegExp emailRegex = RegExp(
+      r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$',
+    );
+
+    if (email.isEmpty) {
+      _validEmailNotifier.value = true;
+      return;
+    }
+
+    _validEmailNotifier.value = emailRegex.hasMatch(email);
+  }
+
+  void validIsNotEmpty() {
+    _isNotEmptyNotifier.value = (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: _emailController,
-          keyboardType: TextInputType.emailAddress,
-          inputFormatters: [
-            FilteringTextInputFormatter.deny(RegExp(r'\s')),
-          ],
-          decoration: const InputDecoration(
-            hintText: 'Correo Electrónico',
+        ValueListenableBuilder(
+          valueListenable: _validEmailNotifier,
+          builder: (context, value, child) => TextField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+            ],
+            decoration: InputDecoration(
+              hintText: 'Correo Electrónico',
+              errorText: value ? null : 'Correo electrónico inválido',
+            ),
+            onChanged: (_) {
+              validEmail(_emailController.text);
+              validIsNotEmpty();
+            },
+            onTapOutside: (event) =>
+                FocusScope.of(context).requestFocus(FocusNode()),
           ),
-          onTapOutside: (event) =>
-              FocusScope.of(context).requestFocus(FocusNode()),
         ),
         SizedBox(height: context.m),
         ValueListenableBuilder(
@@ -245,27 +277,31 @@ class _EmailAndPasswordTextFieldState
                   ),
                 ),
               ),
+              onChanged: (value) => validIsNotEmpty(),
               onTapOutside: (event) =>
                   FocusScope.of(context).requestFocus(FocusNode()),
             );
           },
         ),
         SizedBox(height: context.m),
-        ElevatedButton(
-          onPressed: () => context.read<LoginCubit>().login(
-                _emailController.text,
-                _passwordController.text,
-              ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.m,
+        ValueListenableBuilder(
+          valueListenable: _isNotEmptyNotifier,
+          builder: (context, value, child) => ElevatedButton(
+            onPressed: value
+                ? () => context.read<LoginCubit>().login(
+                      _emailController.text,
+                      _passwordController.text,
+                    )
+                : null,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.m),
+                  child: const Text('Inicio de Sesión'),
                 ),
-                child: const Text('Inicio de Sesión'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

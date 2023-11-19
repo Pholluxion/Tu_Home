@@ -14,14 +14,14 @@ class SignupCubit extends Cubit<SignupState> {
     RegisterService.create(getIt.get<EnvManger>().baseUrl),
   );
 
-  void signup(
-    String name,
-    String surname,
-    String email,
-    String password,
-    String documentNumber,
-    // DocType docType,
-  ) async {
+  void signup({
+    required String name,
+    required String surname,
+    required String email,
+    required String password,
+    required String documentNumber,
+    required DocType docType,
+  }) async {
     emit(SignupLoading());
     try {
       await _registerRepository.register(
@@ -30,7 +30,7 @@ class SignupCubit extends Cubit<SignupState> {
         email,
         password,
         documentNumber,
-        // docType,
+        docType,
       );
       emit(SignupSuccess());
     } catch (e) {

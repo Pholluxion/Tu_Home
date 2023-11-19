@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:tu_home/app/data/modules/env.dart';
 import 'package:tu_home/app/data/services/service_locator.dart';
 import 'package:tu_home/modules/login/data/data.dart';
@@ -13,11 +14,20 @@ class LoginCubit extends Cubit<LoginState> {
     TokenService.create(getIt.get<EnvManger>().baseUrl),
   );
 
+  final _userRepository = UserRepository(
+    UserService.create(getIt<EnvManger>().baseUrl),
+  );
+
   void login(String email, String password) async {
     emit(LoginLoading());
     try {
       final token = await _tokenRepository.auth(email, password);
-      emit(LoginSuccess(token.accessToken));
+      final userResponse = await _userRepository.getUserByEmail(
+        email,
+        "Bearer ${token.accessToken}",
+      );
+
+      emit(LoginSuccess(token: token.accessToken, userResponse: userResponse));
     } catch (e) {
       emit(LoginFailure(e.toString()));
     }
