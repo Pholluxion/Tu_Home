@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tu_home/modules/signup/data/data.dart';
 
 import 'package:tu_home/ui/ui.dart';
 
@@ -9,24 +10,51 @@ class SignupBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            backgroundColor: context.scaffoldBackgroundColor,
-            leading: IconButton(
-              onPressed: () => context.pop(),
-              icon: Icon(
-                Icons.arrow_back,
-                color: context.primaryColor,
-              ),
-            ),
-            pinned: true,
-          ),
-          const SliverToBoxAdapter(child: _SignupHeader()),
-          const SliverToBoxAdapter(child: _SignupBody()),
+          _SliverAppBar(),
+          SliverToBoxAdapter(child: _SignupHeader()),
+          SliverToBoxAdapter(child: _SignupBody()),
         ],
+      ),
+    );
+  }
+}
+
+class _SliverAppBar extends StatelessWidget {
+  const _SliverAppBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      elevation: 0,
+      backgroundColor: context.scaffoldBackgroundColor,
+      leading: IconButton(
+        onPressed: () => context.pop(),
+        icon: Icon(
+          Icons.arrow_back,
+          color: context.primaryColor,
+        ),
+      ),
+      pinned: true,
+    );
+  }
+}
+
+class _SignupHeader extends StatelessWidget {
+  const _SignupHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(context.l),
+      child: SizedBox(
+        height: context.height * 0.2,
+        child: Image.asset(
+          Assets.images.tuHomeLogo.path,
+        ),
       ),
     );
   }
@@ -172,24 +200,12 @@ class _SignupBody extends StatelessWidget {
                 ),
                 isExpanded: true,
                 borderRadius: BorderRadius.circular(context.m),
-                items: const [
-                  DropdownMenuItem(
-                    value: 'Cédula de ciudadanía',
-                    child: Text('Cédula de ciudadanía'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Cédula de ciudadanía',
-                    child: Text('Cédula Electrónica'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Cédula de extranjería',
-                    child: Text('Cédula de extranjería'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Pasaporte',
-                    child: Text('Pasaporte'),
-                  ),
-                ],
+                items: DocType.values
+                    .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.value),
+                        ))
+                    .toList(),
                 onChanged: (value) {},
               ),
             ),
@@ -250,22 +266,5 @@ class _SignupBody extends StatelessWidget {
           end: Offset.zero,
           duration: const Duration(milliseconds: 500),
         );
-  }
-}
-
-class _SignupHeader extends StatelessWidget {
-  const _SignupHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(context.l),
-      child: SizedBox(
-        height: context.height * 0.2,
-        child: Image.asset(
-          Assets.images.tuHomeLogo.path,
-        ),
-      ),
-    );
   }
 }

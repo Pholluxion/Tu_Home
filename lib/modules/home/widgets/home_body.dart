@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:tu_home/app/router/router.dart';
+import 'package:tu_home/modules/login/cubit/login_cubit.dart';
+import 'package:tu_home/ui/ui.dart';
 
 import '../cubit/home_cubit.dart';
 
@@ -9,27 +14,160 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  return Text(state.customProperty);
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.read<HomeCubit>().yourCustomFunction();
-                },
-                child: const Text('Button'),
-              ),
-            ],
-          ),
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LogOutSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Cierre de sesión exitoso'),
+              backgroundColor: Colors.green,
+            ),
+          );
+
+          const LoginRoute().replace(context);
+        }
+      },
+      builder: (context, loginState) {
+        return Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                if (loginState is! LoginLoading) ...[
+                  const _HomeAppBar(),
+                  const _HomeBody(),
+                ],
+                if (loginState is LoginLoading) const _LogOutLoading(),
+              ],
+            ),
+          ],
         );
       },
+    );
+  }
+}
+
+class _HomeAppBar extends StatelessWidget {
+  const _HomeAppBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      elevation: 0.0,
+      leading: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.person,
+            color: Colors.grey,
+          ),
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          onPressed: () {},
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          child: VerticalDivider(
+            color: Colors.grey,
+            width: 4.0,
+          ),
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.notifications_active_outlined,
+            color: Colors.grey,
+          ),
+          onPressed: () {},
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          child: VerticalDivider(
+            color: Colors.grey,
+            width: 4.0,
+          ),
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.exit_to_app,
+            color: Colors.grey,
+          ),
+          onPressed: () => context.read<LoginCubit>().logout(),
+        ),
+      ],
+      title: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Bienvenido a Tu Home',
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            'Nombre de usuario',
+            style: TextStyle(color: Colors.grey, fontSize: 12.0),
+          ),
+        ],
+      ),
+      backgroundColor: Theme.of(context).canvasColor,
+    );
+  }
+}
+
+class _HomeBody extends StatelessWidget {
+  const _HomeBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return Center(
+            child: ListView(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Assets.images.enpty.image(),
+                const SizedBox(height: 16.0),
+                Text(
+                  'Parece que no tienes inmuebles.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _LogOutLoading extends StatelessWidget {
+  const _LogOutLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Container(
+        width: context.width,
+        height: context.height,
+        color: Colors.black.withOpacity(0.5),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: context.primaryColor,
+          ),
+        ),
+      ).animate().fade(
+            begin: 0,
+            end: 1,
+            duration: const Duration(milliseconds: 500),
+          ),
     );
   }
 }

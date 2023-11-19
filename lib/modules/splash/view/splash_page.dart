@@ -12,7 +12,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SplashCubit(),
+      create: (context) => SplashCubit()..init(),
       child: const Scaffold(
         body: SplashView(),
       ),

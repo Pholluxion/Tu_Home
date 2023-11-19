@@ -194,8 +194,8 @@ class AppTheme {
     snackBarTheme: SnackBarThemeData(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(AppStyles.mediumRadius),
-          topRight: Radius.circular(AppStyles.mediumRadius),
+          topLeft: Radius.circular(AppSpacing.xs),
+          topRight: Radius.circular(AppSpacing.xs),
         ),
       ),
       backgroundColor: AppColors.lightPrimary,

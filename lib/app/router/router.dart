@@ -10,7 +10,7 @@ import 'package:tu_home/modules/splash/splash.dart';
 part 'router.g.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: SplashPage.route,
   debugLogDiagnostics: true,
   routes: $appRoutes,
 );

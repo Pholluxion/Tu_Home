@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:tu_home/modules/signup/cubit/signup_cubit.dart';
 import 'package:tu_home/modules/signup/widgets/signup_body.dart';
 import 'package:tu_home/ui/ui.dart';
-
-import '../bloc/signup_bloc.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -15,7 +14,7 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignupBloc(),
+      create: (context) => SignupCubit(),
       child: const SignupView(),
     );
   }
