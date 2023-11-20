@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tu_home/app/app.dart';
-import 'package:tu_home/ui/ui.dart';
+import 'package:tu_home/app/ui/ui.dart';
 
 import '../cubit/splash_cubit.dart';
 

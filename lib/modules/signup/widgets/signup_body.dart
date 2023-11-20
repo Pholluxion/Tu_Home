@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:tu_home/modules/signup/cubit/signup_cubit.dart';
 import 'package:tu_home/modules/signup/data/data.dart';
-import 'package:tu_home/ui/ui.dart';
+import 'package:tu_home/app/ui/ui.dart';
 
 class SignupBody extends StatelessWidget {
   const SignupBody({super.key});

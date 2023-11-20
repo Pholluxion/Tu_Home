@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tu_home/modules/signup/cubit/signup_cubit.dart';
 import 'package:tu_home/modules/signup/widgets/signup_body.dart';
-import 'package:tu_home/ui/ui.dart';
+import 'package:tu_home/app/ui/ui.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});

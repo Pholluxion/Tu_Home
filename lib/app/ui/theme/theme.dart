@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tu_home/ui/ui.dart';
+import 'package:tu_home/app/ui/ui.dart';
 
 class AppTheme {
   static ThemeData dark = ThemeData(

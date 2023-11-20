@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tu_home/ui/ui.dart';
+import 'package:tu_home/app/ui/ui.dart';
 
 extension FromContext on BuildContext {
   double get height => MediaQuery.of(this).size.height;
@@ -19,4 +19,7 @@ extension FromContext on BuildContext {
   Color get secondaryColor => Theme.of(this).colorScheme.secondary;
   Color get tertiaryColor => Theme.of(this).colorScheme.tertiary;
   Color get scaffoldBackgroundColor => Theme.of(this).colorScheme.background;
+  Color get surfaceColor => Theme.of(this).colorScheme.surface;
+  Color get errorColor => Theme.of(this).colorScheme.error;
+  Color get canvasColor => Theme.of(this).canvasColor;
 }

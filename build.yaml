@@ -7,6 +7,7 @@ targets:
             - lib/modules/home/data/services/**.dart
             - lib/modules/login/data/services/**.dart
             - lib/modules/signup/data/services/**.dart
+            - lib/modules/property/data/services/**.dart
       go_router_builder:
         generate_for:
           include:

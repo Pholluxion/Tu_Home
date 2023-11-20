@@ -32,7 +32,33 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      child: const Scaffold(body: HomeBody()),
+      child: Scaffold(
+        body: const HomeBody(),
+        bottomNavigationBar: BlocBuilder<LoginCubit, LoginState>(
+          builder: (context, state) {
+            return Visibility(
+              visible: state is! LoginLoading,
+              child: BottomNavigationBar(
+                currentIndex: 0,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Inicio',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard),
+                    label: 'Dashboard',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.notifications),
+                    label: 'Notificaciones',
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
       onWillPop: () => _onWillPop(context),
     );
   }
