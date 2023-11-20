@@ -115,6 +115,7 @@ class _HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverFillRemaining(
       hasScrollBody: true,
+      fillOverscroll: true,
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           if (state is HomeLoaded) {

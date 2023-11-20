@@ -6,13 +6,11 @@ class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(const SplashInitial());
 
   Future<void> init() async {
-    emit(const SplashLoading(message: 'Conectando con el servidor...'));
-    await Future.delayed(const Duration(milliseconds: 1500));
     emit(const SplashLoading(message: 'Buscando actualizaciones...'));
+    await Future.delayed(const Duration(milliseconds: 1500));
+    emit(const SplashLoading(message: 'Conectando con el servidor...'));
     await Future.delayed(const Duration(milliseconds: 1000));
-    emit(const SplashLoading(message: 'Descargando datos...'));
-    await Future.delayed(const Duration(milliseconds: 1000));
-    emit(const SplashLoading(message: 'Desencriptando datos...'));
+    emit(const SplashLoading(message: 'Descargando información...'));
     await Future.delayed(const Duration(milliseconds: 1000));
     emit(const SplashLoading(message: 'Iniciando...'));
     await Future.delayed(const Duration(milliseconds: 1000));
