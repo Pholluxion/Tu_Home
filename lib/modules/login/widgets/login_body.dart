@@ -18,8 +18,10 @@ class LoginBody extends StatelessWidget {
         listener: (context, state) {
           if (state is LoginSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Inicio de sesión exitoso'),
+              SnackBar(
+                content: Text(
+                  'Bienvenido ${state.userResponse.name}',
+                ),
                 backgroundColor: Colors.green,
               ),
             );

@@ -27,6 +27,8 @@ dependencies:
   injectable: ^2.3.2
   injectable_generator: ^2.4.1
   flutter_animate: ^4.2.0+1
+  fast_cached_network_image: ^1.2.0
+  path_provider: ^2.1.1
 
 
 dev_dependencies:

@@ -20,9 +20,7 @@ class App extends StatelessWidget {
 }
 
 class TuHomeApp extends StatelessWidget {
-  const TuHomeApp({
-    super.key,
-  });
+  const TuHomeApp({super.key});
 
   @override
   Widget build(BuildContext context) {

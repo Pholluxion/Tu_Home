@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tu_home/modules/home/widgets/home_body.dart';
+import 'package:tu_home/modules/login/cubit/login_cubit.dart';
 
 import '../cubit/home_cubit.dart';
 
@@ -13,8 +14,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loginState = context.read<LoginCubit>().state;
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => HomeCubit()
+        ..getContractUserId(
+          loginState is LoginSuccess ? loginState.userResponse.id : 0,
+          loginState is LoginSuccess ? loginState.token : '',
+        ),
       child: const HomeView(),
     );
   }

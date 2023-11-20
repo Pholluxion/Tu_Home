@@ -1,8 +1,10 @@
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import 'package:tu_home/modules/login/cubit/login_cubit.dart';
 import 'package:tu_home/ui/ui.dart';
@@ -49,6 +51,7 @@ class _HomeAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       elevation: 0.0,
+      pinned: true,
       leading: const Padding(
         padding: EdgeInsets.all(8.0),
         child: CircleAvatar(
@@ -110,25 +113,102 @@ class _HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    return SliverFillRemaining(
+      hasScrollBody: true,
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          return ListView(
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            children: [
-              Assets.images.enpty.image(),
-              const SizedBox(height: 16.0),
-              Text(
-                'Parece que no tienes inmuebles.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.tertiary,
+          if (state is HomeLoaded) {
+            if (state.contracts.isEmpty) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Assets.images.enpty.image(),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    'Parece que no tienes inmuebles.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                  ),
+                ],
+              );
+            } else {
+              return ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: state.contracts.length,
+                itemBuilder: (context, index) {
+                  final contract = state.contracts[index];
+                  final image = state.images.firstWhere(
+                    (image) => image.property == contract.propertyId,
+                  );
+
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Card(
+                      color: Theme.of(context).canvasColor,
+                      elevation: 4.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16.0),
+                              child: FastCachedImage(
+                                url: image.url,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  toCopFormat(contract.deposit),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  toCopFormat(contract.rent),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  contract.status,
+                                  style: const TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  );
+                },
+              );
+            }
+          } else if (state is HomeError) {
+            return Center(
+              child: Text(
+                state.message,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-            ],
-          );
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
       ),
     );
@@ -157,4 +237,14 @@ class _LogOutLoading extends StatelessWidget {
           ),
     );
   }
+}
+
+String toCopFormat(String value) {
+  final formatter = NumberFormat.currency(
+    locale: 'es_CO',
+    symbol: '\$',
+    decimalDigits: 0,
+  );
+
+  return formatter.format(double.parse(value));
 }

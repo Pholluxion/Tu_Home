@@ -27,7 +27,10 @@ class LoginCubit extends Cubit<LoginState> {
         "Bearer ${token.accessToken}",
       );
 
-      emit(LoginSuccess(token: token.accessToken, userResponse: userResponse));
+      emit(LoginSuccess(
+        token: "Bearer ${token.accessToken}",
+        userResponse: userResponse,
+      ));
     } catch (e) {
       emit(LoginFailure(e.toString()));
     }
