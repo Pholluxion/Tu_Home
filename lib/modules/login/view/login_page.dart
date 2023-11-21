@@ -20,9 +20,31 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.scaffoldBackgroundColor,
-      body: const LoginBody(),
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
+      child: Scaffold(
+        backgroundColor: context.scaffoldBackgroundColor,
+        body: const LoginBody(),
+      ),
     );
   }
+}
+
+Future<bool> _onWillPop(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('¿Desea salir de la aplicación?'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text('No'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text('Si'),
+        ),
+      ],
+    ),
+  );
 }

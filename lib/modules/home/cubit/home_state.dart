@@ -18,8 +18,10 @@ class HomeLoading extends HomeState {
 class HomeLoaded extends HomeState {
   final List<Contract> contracts;
   final List<ImageModel> images;
+  final List<Property> properties;
 
   const HomeLoaded({
+    this.properties = const [],
     this.contracts = const [],
     this.images = const [],
   });
@@ -27,8 +29,10 @@ class HomeLoaded extends HomeState {
   HomeLoaded copyWith({
     List<Contract>? contracts,
     List<ImageModel>? images,
+    List<Property>? properties,
   }) {
     return HomeLoaded(
+      properties: properties ?? this.properties,
       contracts: contracts ?? this.contracts,
       images: images ?? this.images,
     );

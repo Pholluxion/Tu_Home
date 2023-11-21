@@ -13,8 +13,12 @@ final class PropertyLoading extends PropertyState {}
 
 final class PropertyLoaded extends PropertyState {
   final Property property;
+  final List<ImageModel> images;
 
-  const PropertyLoaded(this.property);
+  const PropertyLoaded({
+    required this.property,
+    this.images = const [],
+  });
 
   @override
   List<Object> get props => [property];

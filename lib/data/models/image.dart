@@ -46,3 +46,16 @@ class ImageModel {
         property: json['property'],
       );
 }
+
+class ImageList {
+  final List<ImageModel> images;
+
+  ImageList({required this.images});
+
+  factory ImageList.fromJson(List<dynamic> parsedJson) {
+    List<ImageModel> images = <ImageModel>[];
+    images = parsedJson.map((i) => ImageModel.fromJson(i)).toList();
+
+    return ImageList(images: images);
+  }
+}

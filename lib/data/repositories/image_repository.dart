@@ -15,11 +15,11 @@ class ImageRepository {
     }
   }
 
-  Future<ImageModel> getImageByPropertyId(int id, String token) async {
+  Future<List<ImageModel>> getImageByPropertyId(int id, String token) async {
     final response = await _imageService.getImagesByPropertyId(token, id);
     if (response.statusCode == 200) {
-      final imagesResponse = ImageResponse.fromJson(response.body);
-      return imagesResponse.content[0];
+      final imagesResponse = ImageList.fromJson(response.body);
+      return imagesResponse.images;
     } else {
       throw Exception('Error al cargar las imagenes');
     }

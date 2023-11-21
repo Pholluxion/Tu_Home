@@ -4,11 +4,11 @@ import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:tu_home/app/app.dart';
 import 'package:tu_home/app/ui/ui.dart';
+import 'package:tu_home/data/data.dart';
 
 import '../../login/cubit/cubit.dart';
 import '../cubit/cubit.dart';
@@ -142,6 +142,9 @@ class _HomeBody extends StatelessWidget {
                     final image = state.images.firstWhere(
                       (image) => image.property == contract.propertyId,
                     );
+                    final property = state.properties.firstWhere(
+                      (property) => property.id == contract.propertyId,
+                    );
 
                     return GestureDetector(
                       onTap: () =>
@@ -155,9 +158,10 @@ class _HomeBody extends StatelessWidget {
                           ),
                           color: Theme.of(context).canvasColor,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(16.0),
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(24),
@@ -180,34 +184,7 @@ class _HomeBody extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      toCopFormat(contract.deposit),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      toCopFormat(contract.rent),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      contract.status,
-                                      style: const TextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              _InfoWidget(property: property)
                             ],
                           ),
                         ),
@@ -228,6 +205,55 @@ class _HomeBody extends StatelessWidget {
             }
           },
         ),
+      ),
+    );
+  }
+}
+
+class _InfoWidget extends StatelessWidget {
+  final Property property;
+
+  const _InfoWidget({
+    required this.property,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            PropertyType.values
+                .firstWhere(
+                  (e) => e.id == property.typeOfProperty,
+                )
+                .name,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          Text(
+            property.name,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.location_on,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                property.address,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
+          ),
+          SizedBox(height: context.height * 0.01),
+        ],
       ),
     );
   }
@@ -255,14 +281,4 @@ class _LogOutLoading extends StatelessWidget {
           ),
     );
   }
-}
-
-String toCopFormat(String value) {
-  final formatter = NumberFormat.currency(
-    locale: 'es_CO',
-    symbol: '\$',
-    decimalDigits: 0,
-  );
-
-  return formatter.format(double.parse(value));
 }

@@ -34,11 +34,6 @@ class PropertyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PropertyView'),
-      ),
-      body: const PropertyBody(),
-    );
+    return const Scaffold(body: PropertyBody());
   }
 }
