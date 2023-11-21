@@ -5,8 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:tu_home/app/app.dart';
 import 'package:tu_home/app/ui/ui.dart';
-
-import '../modules/login/cubit/cubit.dart';
+import 'package:tu_home/modules/modules.dart' show LoginCubit;
 
 class App extends StatelessWidget {
   const App({super.key});

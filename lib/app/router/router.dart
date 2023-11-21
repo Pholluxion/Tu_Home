@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
-import 'package:tu_home/app/modules/home/home.dart';
-import 'package:tu_home/app/modules/login/login.dart';
-import 'package:tu_home/app/modules/property/property.dart';
-import 'package:tu_home/app/modules/signup/signup.dart';
-import 'package:tu_home/app/modules/splash/splash.dart';
+import 'package:tu_home/modules/modules.dart'
+    show HomePage, LoginPage, PropertyPage, SignupPage, SplashPage;
 
 part 'router.g.dart';
 
