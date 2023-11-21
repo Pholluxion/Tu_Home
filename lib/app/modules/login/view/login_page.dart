@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+
+import 'package:tu_home/app/ui/ui.dart';
+
+import '../widgets/widgets.dart';
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  static const route = '/login';
+
+  @override
+  Widget build(BuildContext context) {
+    return const LoginView();
+  }
+}
+
+class LoginView extends StatelessWidget {
+  const LoginView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: context.scaffoldBackgroundColor,
+      body: const LoginBody(),
+    );
+  }
+}
