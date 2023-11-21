@@ -14,12 +14,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginState = context.read<LoginCubit>().state;
-    return BlocProvider(
-      create: (context) => HomeCubit()
-        ..getContractUserId(
-          loginState is LoginSuccess ? loginState.userResponse.id : 0,
-          loginState is LoginSuccess ? loginState.token : '',
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeCubit()
+            ..getContractUserId(
+              loginState is LoginSuccess ? loginState.userResponse.id : 0,
+              loginState is LoginSuccess ? loginState.token : '',
+            ),
         ),
+        BlocProvider(
+          create: (context) => NavCubit(),
+        ),
+      ],
       child: const HomeView(),
     );
   }
@@ -32,27 +39,47 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-        body: const HomeBody(),
+        body: BlocBuilder<NavCubit, NavState>(
+          builder: (context, state) {
+            if (state == NavState.dashboard) {
+              return const DashBoardBody();
+            }
+            if (state == NavState.notification) {
+              return const NotificationsBody();
+            } else {
+              return const HomeBody();
+            }
+          },
+        ),
         bottomNavigationBar: BlocBuilder<LoginCubit, LoginState>(
           builder: (context, state) {
             return Visibility(
               visible: state is! LoginLoading,
-              child: BottomNavigationBar(
-                currentIndex: 0,
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Inicio',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.dashboard),
-                    label: 'Dashboard',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.notifications),
-                    label: 'Notificaciones',
-                  ),
-                ],
+              child: BlocBuilder<NavCubit, NavState>(
+                builder: (context, state) {
+                  return BottomNavigationBar(
+                    currentIndex: state.value,
+                    onTap: (value) => context.read<NavCubit>().changeNavState(
+                          NavState.values.firstWhere(
+                            (element) => element.value == value,
+                          ),
+                        ),
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Inicio',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.dashboard),
+                        label: 'Dashboard',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.notifications),
+                        label: 'Notificaciones',
+                      ),
+                    ],
+                  );
+                },
               ),
             );
           },
