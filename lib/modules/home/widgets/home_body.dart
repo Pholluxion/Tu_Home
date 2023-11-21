@@ -37,6 +37,18 @@ class HomeBody extends StatelessWidget {
           slivers: [
             if (loginState is! LoginLoading) ...[
               const _HomeAppBar(),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l),
+                  child: Text(
+                    'Tus inmuebles',
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: context.colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
               const _HomeBody(),
             ],
             if (loginState is LoginLoading) const _LogOutLoading(),
@@ -150,7 +162,7 @@ class _HomeBody extends StatelessWidget {
                       onTap: () =>
                           PropertyRoute(id: contract.propertyId).push(context),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Card(
                           elevation: 4.0,
                           shape: RoundedRectangleBorder(
@@ -270,8 +282,18 @@ class _LogOutLoading extends StatelessWidget {
         height: context.height,
         color: Colors.black.withOpacity(0.5),
         child: Center(
-          child: CircularProgressIndicator(
-            color: context.primaryColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Cerrando sesión',
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 20.0),
+              CircularProgressIndicator(
+                color: context.primaryColor,
+              ),
+            ],
           ),
         ),
       ).animate().fade(

@@ -42,8 +42,10 @@ class LoginBody extends StatelessWidget {
         builder: (context, state) {
           return Stack(
             children: [
-              const _LoginHeader(),
-              const _LoginBody(),
+              if (state is! LoginLoading) ...[
+                const _LoginHeader(),
+                const _LoginBody(),
+              ],
               if (state is LoginLoading) const _LoginLoading(),
             ],
           );
@@ -63,8 +65,18 @@ class _LoginLoading extends StatelessWidget {
       height: double.infinity,
       color: Colors.black.withOpacity(0.5),
       child: Center(
-        child: CircularProgressIndicator(
-          color: context.primaryColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Iniciando sesión...',
+              style: TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 20.0),
+            CircularProgressIndicator(
+              color: context.primaryColor,
+            ),
+          ],
         ),
       ),
     ).animate().fade(

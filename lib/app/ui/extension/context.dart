@@ -22,4 +22,9 @@ extension FromContext on BuildContext {
   Color get surfaceColor => Theme.of(this).colorScheme.surface;
   Color get errorColor => Theme.of(this).colorScheme.error;
   Color get canvasColor => Theme.of(this).canvasColor;
+
+  TextTheme get textTheme => Theme.of(this).textTheme;
+
 }
+
+

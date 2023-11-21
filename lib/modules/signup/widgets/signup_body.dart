@@ -73,8 +73,18 @@ class _SignUpLoading extends StatelessWidget {
       height: double.infinity,
       color: Colors.black.withOpacity(0.5),
       child: Center(
-        child: CircularProgressIndicator(
-          color: context.primaryColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Realizando registro...',
+              style: TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 20.0),
+            CircularProgressIndicator(
+              color: context.primaryColor,
+            ),
+          ],
         ),
       ),
     ).animate().fade(
