@@ -14,43 +14,41 @@ class LoginBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocConsumer<LoginCubit, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Bienvenido ${state.userResponse.name}',
-                ),
-                backgroundColor: Colors.green,
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Bienvenido ${state.userResponse.name}',
               ),
-            );
-
-            const HomeRoute().push(context);
-          }
-
-          if (state is LoginFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          return Stack(
-            children: [
-              if (state is! LoginLoading) ...[
-                const _LoginHeader(),
-                const _LoginBody(),
-              ],
-              if (state is LoginLoading) const _LoginLoading(),
-            ],
+              backgroundColor: Colors.green,
+            ),
           );
-        },
-      ),
+
+          const HomeRoute().push(context);
+        }
+
+        if (state is LoginFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          children: [
+            if (state is! LoginLoading) ...[
+              const _LoginHeader(),
+              const _LoginBody(),
+            ],
+            if (state is LoginLoading) const _LoginLoading(),
+          ],
+        );
+      },
     );
   }
 }
@@ -250,11 +248,12 @@ class _EmailAndPasswordTextFieldState
           builder: (context, value, child) => TextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
+            style: const TextStyle(letterSpacing: 2),
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp(r'\s')),
             ],
             decoration: InputDecoration(
-              hintText: 'Correo Electrónico',
+              hintText: 'Correo electrónico',
               errorText: value ? null : 'Correo electrónico inválido',
             ),
             onChanged: (_) {
@@ -270,6 +269,7 @@ class _EmailAndPasswordTextFieldState
           valueListenable: _obscureTextNotifier,
           builder: (context, value, child) {
             return TextField(
+              style: const TextStyle(letterSpacing: 2),
               controller: _passwordController,
               obscureText: value,
               keyboardType: TextInputType.visiblePassword,
@@ -332,7 +332,7 @@ class _LoginHeader extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
-        padding: EdgeInsets.all(context.s),
+        padding: EdgeInsets.all(context.xxl),
         child: SizedBox(
           height: context.height * 0.3,
           child: Image.asset(

@@ -125,7 +125,7 @@ class _HomeBody extends StatelessWidget {
     return SliverToBoxAdapter(
       child: SizedBox(
         width: context.width,
-        height: context.height * 0.8,
+        height: context.height * 0.7,
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeLoaded) {
@@ -168,7 +168,7 @@ class _HomeBody extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24.0),
                           ),
-                          color: Theme.of(context).canvasColor,
+                          color: context.surfaceColor,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

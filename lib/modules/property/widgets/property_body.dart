@@ -151,6 +151,7 @@ class PropertyBody extends StatelessWidget {
                           color: context.primaryColor,
                         ),
                       ),
+                      const SizedBox(height: 40.0),
                     ],
                   ),
                 ),

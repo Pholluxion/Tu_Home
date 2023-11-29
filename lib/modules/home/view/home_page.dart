@@ -37,7 +37,9 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) async => _onWillPop(context),
       child: Scaffold(
         body: BlocBuilder<NavCubit, NavState>(
           builder: (context, state) {
@@ -85,11 +87,10 @@ class HomeView extends StatelessWidget {
           },
         ),
       ),
-      onWillPop: () => _onWillPop(context),
     );
   }
 
-  Future<bool> _onWillPop(BuildContext context) async {
+  Future<bool>? _onWillPop(BuildContext context) async {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(

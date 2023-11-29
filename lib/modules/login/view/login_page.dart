@@ -20,8 +20,9 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => _onWillPop(context),
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) async => _onWillPop(context),
       child: Scaffold(
         backgroundColor: context.scaffoldBackgroundColor,
         body: const LoginBody(),

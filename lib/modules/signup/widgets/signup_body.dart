@@ -15,50 +15,48 @@ class SignupBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocConsumer<SignupCubit, SignupState>(
-        listener: (context, state) {
-          if (state is SignupSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Registro exitoso'),
-                backgroundColor: Colors.green,
-              ),
-            );
-            context.go('/login');
-          }
-
-          if (state is SignupFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          return Stack(
-            children: [
-              CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                  if (state is! SignupLoading) ...[
-                    const _SliverAppBar(),
-                    const SliverToBoxAdapter(child: _SignupHeader()),
-                    const SliverToBoxAdapter(child: _SignupBody()),
-                  ],
-                  if (state is SignupLoading)
-                    const SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: _SignUpLoading(),
-                    ),
-                ],
-              ),
-            ],
+    return BlocConsumer<SignupCubit, SignupState>(
+      listener: (context, state) {
+        if (state is SignupSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Registro exitoso'),
+              backgroundColor: Colors.green,
+            ),
           );
-        },
-      ),
+          context.go('/login');
+        }
+
+        if (state is SignupFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          children: [
+            CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                if (state is! SignupLoading) ...[
+                  const _SliverAppBar(),
+                  const SliverToBoxAdapter(child: _SignupHeader()),
+                  const SliverToBoxAdapter(child: _SignupBody()),
+                ],
+                if (state is SignupLoading)
+                  const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: _SignUpLoading(),
+                  ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -293,7 +291,7 @@ class _SignupBodyState extends State<_SignupBody> {
                   FilteringTextInputFormatter.deny(RegExp(r'\s')),
                 ],
                 decoration: InputDecoration(
-                  hintText: 'Correo Electrónico',
+                  hintText: 'Correo electrónico',
                   errorText: value ? null : 'Correo electrónico inválido',
                 ),
                 onChanged: (_) {
@@ -383,17 +381,24 @@ class _SignupBodyState extends State<_SignupBody> {
                     hint: Text(
                       'Tipo de documento',
                       style: AppStyles.labelMedium.copyWith(
-                        color: context.tertiaryColor,
+                        color: context.secondaryColor,
                       ),
                     ),
                     isExpanded: true,
                     borderRadius: BorderRadius.circular(context.m),
                     value: _docType.value,
                     items: DocType.values
-                        .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e.value),
-                            ))
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(
+                              e.value,
+                              style: AppStyles.labelMedium.copyWith(
+                                color: context.secondaryColor,
+                              ),
+                            ),
+                          ),
+                        )
                         .toList(),
                     onChanged: (value) {
                       _docType.value = value as DocType;
