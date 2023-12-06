@@ -5,3 +5,6 @@ Get-ChildItem -Path . -Include *.g.dart,*.chopper.dart,*.gen.dart -Recurse -Forc
 
 ## Run for generated all files
 dart run build_runner build
+
+## Build apk 
+flutter build apk --split-per-abi --dart-define=URL=https://tu-home-backend.up.railway.app
