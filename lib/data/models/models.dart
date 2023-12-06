@@ -4,3 +4,4 @@ export 'token.dart';
 export 'user.dart';
 export 'property.dart';
 export 'register.dart';
+export 'notification.dart';
