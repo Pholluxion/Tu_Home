@@ -38,8 +38,32 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
-      onPopInvoked: (didPop) async => _onWillPop(context),
+      canPop: false,
+      onPopInvoked: (bool didPop) async {
+        if (didPop) {
+          return;
+        }
+        final NavigatorState navigator = Navigator.of(context);
+        final bool? shouldPop = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('¿Desea cerrar sesión?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('No'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Si'),
+              ),
+            ],
+          ),
+        );
+        if (shouldPop ?? false) {
+          navigator.pop();
+        }
+      },
       child: Scaffold(
         body: BlocBuilder<NavCubit, NavState>(
           builder: (context, state) {
@@ -86,25 +110,6 @@ class HomeView extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Future<bool>? _onWillPop(BuildContext context) async {
-    return await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('¿Desea cerrar sesión?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('No'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Si'),
-          ),
-        ],
       ),
     );
   }
