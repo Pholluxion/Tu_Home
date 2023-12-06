@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
-import 'package:tu_home/modules/home/home.dart';
-import 'package:tu_home/modules/login/login.dart';
-import 'package:tu_home/modules/signup/signup.dart';
+import 'package:tu_home/modules/modules.dart'
+    show HomePage, LoginPage, PropertyPage, SignupPage, SplashPage;
 
 part 'router.g.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: SplashPage.route,
   debugLogDiagnostics: true,
   routes: $appRoutes,
 );
@@ -41,5 +40,27 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const HomePage();
+  }
+}
+
+@TypedGoRoute<SplashRoute>(path: SplashPage.route)
+class SplashRoute extends GoRouteData {
+  const SplashRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SplashPage();
+  }
+}
+
+@TypedGoRoute<PropertyRoute>(path: PropertyPage.route)
+class PropertyRoute extends GoRouteData {
+  const PropertyRoute({required this.id});
+
+  final int id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PropertyPage(id: id);
   }
 }
