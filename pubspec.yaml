@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   bloc: ^8.1.2
-  chopper: ^7.0.9
+  chopper: ^7.0.10
   equatable: ^2.0.5
   flutter:
     sdk: flutter
