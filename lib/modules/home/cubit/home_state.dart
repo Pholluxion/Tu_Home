@@ -19,27 +19,36 @@ class HomeLoaded extends HomeState {
   final List<Contract> contracts;
   final List<ImageModel> images;
   final List<Property> properties;
+  final List<Notification> notifications;
 
   const HomeLoaded({
     this.properties = const [],
     this.contracts = const [],
     this.images = const [],
+    this.notifications = const [],
   });
 
   HomeLoaded copyWith({
     List<Contract>? contracts,
     List<ImageModel>? images,
     List<Property>? properties,
+    List<Notification>? notifications,
   }) {
     return HomeLoaded(
       properties: properties ?? this.properties,
       contracts: contracts ?? this.contracts,
       images: images ?? this.images,
+      notifications: notifications ?? this.notifications,
     );
   }
 
   @override
-  List<Object> get props => [contracts];
+  List<Object> get props => [
+        contracts,
+        images,
+        properties,
+        notifications,
+      ];
 }
 
 class HomeError extends HomeState {

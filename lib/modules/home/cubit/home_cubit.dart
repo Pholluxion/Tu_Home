@@ -20,6 +20,10 @@ class HomeCubit extends Cubit<HomeState> {
     ImageService.create(getIt.get<EnvManger>().baseUrl),
   );
 
+  final _notificationRepository = NotificationRepository(
+    NotificationService.create(getIt.get<EnvManger>().baseUrl),
+  );
+
   Future<Property> getProperty(String token, int id) async {
     try {
       final property = await _propertyRepository.getProperty(id, token);
@@ -33,11 +37,20 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getContractUserId(int id, String token) async {
     emit(const HomeLoading());
     try {
-      final images = await _imageRepository.getImages(token);
+      final images = await _imageRepository.getImages(
+        token,
+      );
+      final notifications = await _notificationRepository.getNotifications(
+        token,
+      );
       final contracts = await _contractRepository.getContractUserId(
         id,
         token,
       );
+
+      final ourNotifications = notifications.where((element) {
+        return element.userId == id;
+      }).toList();
 
       final properties = await Future.wait(
         contracts.map((e) => getProperty(token, e.propertyId)),
@@ -48,6 +61,7 @@ class HomeCubit extends Cubit<HomeState> {
           contracts: contracts,
           images: images,
           properties: properties,
+          notifications: ourNotifications,
         ),
       );
     } catch (e) {

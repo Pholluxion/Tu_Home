@@ -4,3 +4,4 @@ export 'token_repository.dart';
 export 'user_repository.dart';
 export 'property_repository.dart';
 export 'register_repository.dart';
+export 'notification_repository.dart';
