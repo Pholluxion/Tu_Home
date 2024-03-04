@@ -285,10 +285,10 @@ packages:
     dependency: "direct main"
     description:
       name: fast_cached_network_image
-      sha256: "9f9cb77f8e6e30b936d12c87ec060a7ead97f14881ebf28de51a7e871cbfc644"
+      sha256: f69668a4b5739c005829cab369c5302779ecd9afd8dda4ce389d3713877d4bdd
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.7"
+    version: "1.2.8"
   ffi:
     dependency: transitive
     description:
