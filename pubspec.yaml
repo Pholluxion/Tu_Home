@@ -21,7 +21,7 @@ dependencies:
   json_annotation: ^4.8.1
   logger: ^2.1.0
   shared_preferences: ^2.2.2
-  injectable: ^2.3.2
+  injectable: ^2.3.4
   flutter_animate: ^4.3.0
   fast_cached_network_image: ^1.2.8
   path_provider: ^2.1.1
