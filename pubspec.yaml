@@ -32,7 +32,7 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.1.5
-  build_runner: ^2.4.7
+  build_runner: ^2.4.11
   chopper_generator: ^7.4.0
   flutter_gen_runner: ^5.3.2
   flutter_lints: ^3.0.0
